@@ -1,10 +1,7 @@
 function addBinary(a, b) {
-  const lenA = a.length;
-  const lenB = b.length;
-  const biggestLength = lenA > lenB ? lenA : lenB;
-  const paddedA = strpad(a, biggestLength - lenA);
-  const paddedB = strpad(b, biggestLength - lenB);
-
+  const biggestLength = Math.max(a.length, b.length)
+  const paddedA = strpad(a, biggestLength - a.length);
+  const paddedB = strpad(b, biggestLength - b.length);
   let sum = [], carry = 0;
   for (let i = biggestLength - 1; i >= 0; i--) {
     const [s, c] = binarySum(paddedA.charAt(i), paddedB.charAt(i), carry);
