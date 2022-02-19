@@ -2,39 +2,39 @@ import React, { useEffect, useState } from "react";
 
 function StopWatch() {
 
-  const [isActive, setIsActive] = useState(false);
+  const [secondCount, setSecondCount] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
-  const [time, setTime] = useState(0);
   const [delay, setDelay] = useState(1000)
 
-useEffect(() => {
-    let interval = null;
-    if (isActive && isPaused === false) {
-      interval = setInterval(() => {
-        setTime((time) => time + 1);
-      }, delay);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isActive, isPaused, delay]);
+    useEffect(() => {
+        let timerId = null;
+        if (isRunning && isPaused === false) {
+            timerId = setInterval(() => {
+            setSecondCount((secondCount) => secondCount + 1);
+        }, delay);
+        } else {
+        clearInterval(timerId);
+        }
+        return () => {
+        clearInterval(timerId);
+        };
+    }, [isRunning, isPaused, delay]);
 
     
 
     const start = () => {
-        if (isActive) {
+        if (isRunning) {
             setIsPaused(!isPaused);
         } else {
-            setIsActive(true);
+            setIsRunning(true);
             setIsPaused(false);
         }
     }
 
     const reset = () => {
-        setIsActive(false);
-        setTime(0);
+        setIsRunning(false);
+        setSecondCount(0);
     }
 
     const handleDelayChange = (e) => {
@@ -45,14 +45,14 @@ useEffect(() => {
 
     return (
         <div className="Center Content">
-            <h1>{formatTime(time)}</h1>
+            <h1>{formatTime(secondCount)}</h1>
             <div className="StopWatchControls">
                 <button 
                     className="AutoWidth Rounded Button Success" 
                     onClick={start}
                     style={{marginRight:"15px"}}
                 >
-                    {isActive && !isPaused ? "Pause" : "Start"}
+                    {isRunning && !isPaused ? "Pause" : "Start"}
                 </button>
                 <button 
                     className="AutoWidth Rounded Button Danger" 
